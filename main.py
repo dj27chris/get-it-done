@@ -16,9 +16,6 @@ class Task(db.Model):
     def __init__(self, name):
         self.name = name
 
-tasks = []
-
-
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -31,6 +28,14 @@ def index():
     tasks = Task.query.all()
     return render_template('todo.html', title="Get it Done!", tasks=tasks)
 
+
+@app.route('/delete-task', methods=['POST'])
+def delete_task():
+
+    task_id = int(request.form['task-id'])
+    task = Task.query.get(task_id)
+    db.session..delete(task)
+    db.session.commit()
 
 
 if __name__ == '__main__':
