@@ -24,8 +24,9 @@ tasks = []
 def index():
 
     if request.method == 'POST':
-        task = request.form['task']
-        tasks.append(task)
+        new_task = request.form['task']
+        db.session.add(new_task)
+        db.session.commit()
         
     tasks = Task.query.all()
     return render_template('todos.html', title="Get it Done!", tasks=tasks)
