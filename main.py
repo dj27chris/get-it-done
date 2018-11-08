@@ -18,6 +18,8 @@ class Task(db.Model):
 
 tasks = []
 
+
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
 
@@ -25,8 +27,7 @@ def index():
         task = request.form['task']
         tasks.append(task)
         
-
-    
+    tasks = Task.query.all()
     return render_template('todos.html', title="Get it Done!", tasks=tasks)
 
 
