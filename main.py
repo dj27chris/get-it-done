@@ -29,7 +29,7 @@ def index():
         db.session.commit()
         
     tasks = Task.query.all()
-    return render_template('todos.html', title="Get it Done!", tasks=tasks)
+    return render_template('todo.html', title="Get it Done!", tasks=tasks)
 
 
 
