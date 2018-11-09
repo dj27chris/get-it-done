@@ -23,7 +23,8 @@ class Task(db.Model):
 def index():
 
     if request.method == 'POST':
-        new_task = request.form['task']
+        task_name = request.form['task']
+        new_task = Task(task_name)
         db.session.add(new_task)
         db.session.commit()
         
