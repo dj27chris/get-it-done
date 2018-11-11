@@ -30,12 +30,24 @@ class User(db.Model):
         self.password = password
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+        
+        if user and user.password == password:
+            #todo  "remember" taht the user has logged in
+            return redirect('/')
+        else:
+            #future message about why log in failed
+            return '<h1>There was an error<h1>'
+
     return render_template('login.html')
 
 
-@app.route('/register')
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     return render_template('register.html')
 
