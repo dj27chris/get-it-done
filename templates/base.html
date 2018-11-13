@@ -3,12 +3,14 @@
     <head>
         <title>
            {{title}}
-          <style>
-              a {padding-right: 120px;}
-              
-                
-          </style>
         </title>
+        <style>
+            a {padding-right: 120px;}
+            .footer{
+                position: absolute;
+                bottom:65%;
+            }
+        </style>
     </head>
     <body>
        <nav>
@@ -16,6 +18,20 @@
            <a href="/login" style="padding-right: 25px;">Login</a>
         <a href="/register">Register</a>
        </nav> 
+     
+       {% with messages = get_flashed_messages() %}
+          <ul>
+           {% for messages in messages %}
+               <li>{{message}} </li>
+          </ul>
+       {% endwith %}
+
+
+       <div class='footer'>
+           <a href="/logout">Log out</a>
+       </div>
+
+
         {% block content %}
         {% endblock %}
 
