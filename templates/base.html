@@ -5,10 +5,10 @@
            {{title}}
         </title>
         <style>
-            a {padding-right: 120px;}
+            nav a {padding-right: 120px;}
             .footer{
                 position: absolute;
-                bottom:65%;
+                bottom:50%;
             }
         </style>
     </head>
@@ -23,6 +23,7 @@
           <ul>
            {% for messages in messages %}
                <li>{{message}} </li>
+           {% endfor %}
           </ul>
        {% endwith %}
 

@@ -47,7 +47,7 @@ def login():
         
         if user and user.password == password:
             session['email'] = email
-            flash('Logged in')
+            flash("Logged in")
             return redirect('/')
         else:
             #future message about why log in failed
