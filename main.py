@@ -7,6 +7,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://get-it-done:getitdone23
 app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
+app.secret_key = 'y337kGcys&p3b'
 
 class Task(db.Model):
 
@@ -31,7 +32,8 @@ class User(db.Model):
 
 @app.before_request
 def require_login():
-    if 'email' not in session:
+    allowed_routes = ['login', 'register']
+    if request.endpoint not in allowed_routes and 'email' not in session:
         redirect('/login')
 
 
@@ -80,10 +82,8 @@ def register():
 
 @app.route('/logout')
 def logout():
-    allowed_routes = ['login', 'register']
-    if request.endpoint not in allowed_routes and 'email' not in session:
-        return redirect('/')
-
+    delete session['email']
+    return redirect('/')
 
 
 @app.route('/', methods=['POST', 'GET'])
