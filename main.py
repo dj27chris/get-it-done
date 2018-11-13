@@ -56,12 +56,11 @@ def register():
         verify = request.form['verify']
 
 
-    if password != verify:
-        return '<h2>Passwords do not match</h2>'
+    
 
     existing_user = User.query.filter_by(email=email).first()
     if not existing_user:
-        new_user = User(emeail, password)
+        new_user = User(email, password)
         db.session.add(new_user)
         db.session.commit()
         #todo, remember user
