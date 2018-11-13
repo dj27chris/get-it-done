@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, session
 from flask_sqlalchemy import SQLAlchemy 
 
 app = Flask(__name__)
@@ -29,6 +29,12 @@ class User(db.Model):
         self.email = email
         self.password = password
 
+@app.before_request
+def require_login():
+    if 'email' not in session:
+        redirect('/login')
+
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -38,7 +44,7 @@ def login():
         user = User.query.filter_by(email=email).first()
         
         if user and user.password == password:
-            #todo  "remember" taht the user has logged in
+            session['email'] = email
             return redirect('/')
         else:
             #future message about why log in failed
@@ -64,13 +70,18 @@ def register():
             new_user = User(email, password)
             db.session.add(new_user)
             db.session.commit()
-            #todo, remember user
+            session['email'] = email
             return redirect('/')
         else:
             #todo, better message that user already exists
             return '<h2> Duplicate user</h2><br><a href="/register">Go Back</a>'
    
     return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    del session['email']
+    return redirect('/')
 
 
 
