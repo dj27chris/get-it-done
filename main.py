@@ -55,20 +55,21 @@ def register():
         password = request.form['password']
         verify = request.form['verify']
 
+        if password != verify:
+            return '<h2>Passwords do not match</h2><br><a href="/register">Go Back</a>'
 
-    
 
-    existing_user = User.query.filter_by(email=email).first()
-    if not existing_user:
-        new_user = User(email, password)
-        db.session.add(new_user)
-        db.session.commit()
-        #todo, remember user
-        return redirect('/')
-    else:
-        #todo, better message that user already exists
-        return '<h2> Duplicate user</h2>'
-
+        existing_user = User.query.filter_by(email=email).first()
+        if not existing_user:
+            new_user = User(email, password)
+            db.session.add(new_user)
+            db.session.commit()
+            #todo, remember user
+            return redirect('/')
+        else:
+            #todo, better message that user already exists
+            return '<h2> Duplicate user</h2><br><a href="/register">Go Back</a>'
+   
     return render_template('register.html')
 
 
