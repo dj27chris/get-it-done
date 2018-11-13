@@ -50,7 +50,7 @@ def login():
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-    if request.method == 'POST'
+    if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         verify = request.form['verify']
@@ -64,9 +64,11 @@ def register():
         new_user = User(emeail, password)
         db.session.add(new_user)
         db.session.commit()
+        #todo, remember user
+        return redirect('/')
     else:
         #todo, better message that user already exists
-        return '<h2> Dubplicate user</h2>'
+        return '<h2> Duplicate user</h2>'
 
     return render_template('register.html')
 
