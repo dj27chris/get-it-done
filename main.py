@@ -47,8 +47,27 @@ def login():
     return render_template('login.html')
 
 
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
+    if request.method == 'POST'
+        email = request.form['email']
+        password = request.form['password']
+        verify = request.form['verify']
+
+
+    if password != verify:
+        return '<h2>Passwords do not match</h2>'
+
+    existing_user = User.query.filter_by(email=email).first()
+    if not existing_user:
+        new_user = User(emeail, password)
+        db.session.add(new_user)
+        db.session.commit()
+    else:
+        #todo, better message that user already exists
+        return '<h2> Dubplicate user</h2>'
+
     return render_template('register.html')
 
 
@@ -61,6 +80,7 @@ def index():
         new_task = Task(task_name)
         db.session.add(new_task)
         db.session.commit()
+    
         
     tasks = Task.query.filter_by(completed=False).all()
     completed_tasks = Task.query.filter_by(completed=True).all()
