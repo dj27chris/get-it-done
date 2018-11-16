@@ -38,7 +38,7 @@ class User(db.Model):
 def require_login():
     allowed_routes = ['login', 'register']
     if request.endpoint not in allowed_routes and 'email' not in session:
-        redirect('/login')
+        return redirect('/login')
 
 
 
@@ -87,7 +87,7 @@ def register():
 @app.route('/logout', methods=['GET'])
 def logout():
     del session['email']
-    return redirect('/')
+    return redirect('/login')
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -97,6 +97,7 @@ def index():
 
     if request.method == 'POST':
         task_name = request.form['task']
+        owner = User.query.filter_by(email=session['email']).first()
         new_task = Task(task_name, owner)
         db.session.add(new_task)
         db.session.commit()
